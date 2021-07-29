@@ -74,12 +74,26 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
-    "electron": "electron .",
     "dev": "chcp 65001 && concurrently \"npm run start:dev\" \"npm run wait && cross-env NODE_ENV=development electron .\"",
+    "test": "chcp 65001 && concurrently \"npm run start:test\" \"npm run wait && cross-env NODE_ENV=development electron .\"",
+    "sim": "chcp 65001 && concurrently \"npm run start:sim\" \"npm run wait && cross-env NODE_ENV=development electron .\"",
+    "prod": "chcp 65001 && concurrently \"npm run start:prod\" \"npm run wait && cross-env NODE_ENV=development electron .\"",
     "start:dev": "cross-env BROWSER=none REACT_APP_SECRET_ENV=dev react-app-rewired start",
+    "start:test": "cross-env BROWSER=none REACT_APP_SECRET_ENV=test react-app-rewired start",
+    "start:sim": "cross-env BROWSER=none REACT_APP_SECRET_ENV=sim react-app-rewired start",
+    "start:prod": "cross-env BROWSER=none REACT_APP_SECRET_ENV=prod react-app-rewired start",
+    "build:dev": "cross-env REACT_APP_SECRET_ENV=dev react-app-rewired build",
+    "build:test": "cross-env REACT_APP_SECRET_ENV=test react-app-rewired build",
+    "build:sim": "cross-env REACT_APP_SECRET_ENV=sim react-app-rewired build",
+    "build:prod": "cross-env REACT_APP_SECRET_ENV=prod react-app-rewired build",
+    "release-win:dev": "npm run build:dev && electron-builder -w",
+    "release-win:test": "npm run build:test && electron-builder -w",
+    "release-win:sim": "npm run build:sim && electron-builder -w",
+    "release-win:prod": "npm run build:prod && electron-builder -w",
+    "release-mac:dev": "npm run build:dev && electron-builder -m",
+    "release-mac:test": "npm run build:test && electron-builder -m",
+    "release-mac:sim": "npm run build:sim && electron-builder -m",
+    "release-mac:prod": "npm run build:prod && electron-builder -m",
     "wait": "wait-on http://localhost:3000"
   },
   "eslintConfig": {
@@ -104,7 +118,9 @@
     "cross-env": "^7.0.3",
     "customize-cra": "^1.0.0",
     "electron": "^13.1.7",
+    "node-sass": "^6.0.1",
     "react-app-rewired": "^2.1.8",
+    "sass-resources-loader": "^2.2.3",
     "wait-on": "^5.1.0"
   },
   "jest": {
