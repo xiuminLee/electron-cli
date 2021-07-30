@@ -25,6 +25,7 @@
     "css-loader": "4.3.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
+    "electron-store": "^6.0.0",
     "eslint": "^7.11.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -44,6 +45,9 @@
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
     "mini-css-extract-plugin": "0.11.3",
+    "mobx": "^5.0.2",
+    "mobx-react": "^5.2.3",
+    "mobx-react-lite": "^2.0.7",
     "optimize-css-assets-webpack-plugin": "5.0.4",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.2.1",
@@ -118,6 +122,7 @@
     "cross-env": "^7.0.3",
     "customize-cra": "^1.0.0",
     "electron": "^13.1.7",
+    "electron-builder": "^22.7.0",
     "node-sass": "^6.0.1",
     "react-app-rewired": "^2.1.8",
     "sass-resources-loader": "^2.2.3",
@@ -177,5 +182,53 @@
     "presets": [
       "react-app"
     ]
+  },
+  "homepage": ".",
+  "build": {
+    "extends": null,
+    "productName": "electron-cli",
+    "appId": "electron-cli",
+    "directories": {
+      "output": "release/${version}_setup"
+    },
+    "files": [
+      "build/**/*",
+      "src/main/*",
+      "src/config/*",
+      "src/utils/*"
+    ],
+    "npmRebuild": false,
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "requestedExecutionLevel": "requireAdministrator",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_setup_${version}.${ext}",
+      "icon": "public/favicon.ico"
+    },
+    "publish": [
+      {
+        "provider": "s3",
+        "bucket": "quickfox-pc"
+      }
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    }
   }
 }

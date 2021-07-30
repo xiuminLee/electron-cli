@@ -7,12 +7,12 @@ const {
 } = require('electron');
 const path = require('path')
 const url = require('url');
-// const handleEvent = require('./handleEvent.js');
-// const initEvent = require('./initEvent.js');
-// const ElectronTray = require('./setTray');
+const handleEvent = require('./handleEvent.js');
+const initEvent = require('./initEvent.js');
+const ElectronTray = require('./setTray');
 
 let mainWindow;
-// let winTray;
+let winTray;
 
 // 禁止多开
 const gotTheLock = app.requestSingleInstanceLock();
@@ -28,13 +28,12 @@ if (!gotTheLock) {
       });  
 }
 function createWindow() {
-    // 隐藏原生菜单
-    // Menu.setApplicationMenu(null);
+    Menu.setApplicationMenu(null);
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 900,
         show: false,
-        // frame: false, // 隐藏原生头部
+        frame: false,
         webPreferences: {
             webviewTag: true,
             webSecurity: false,
@@ -51,7 +50,6 @@ function createWindow() {
             protocol: 'file:',
             slashes: true
         });
-    // const winUrl = 'http://localhost:3000/'
     mainWindow.loadURL(winUrl);
     mainWindow.on('ready-to-show', function () { // 初始化完成后显示，避免短暂白屏
         mainWindow.show();
@@ -59,7 +57,7 @@ function createWindow() {
     mainWindow.on('closed', function () {
         mainWindow = null
     })
-    // 开发环境默认打开控制台
+    // 打开开发工具页面
     if (process.env.NODE_ENV === 'development') {
         mainWindow.webContents.openDevTools();
     }
@@ -78,10 +76,10 @@ app.whenReady().then(() => {
       })
     createWindow();
     // 初始化
-    // initEvent();
-    // winTray = new ElectronTray(mainWindow);
+    initEvent();
+    winTray = new ElectronTray(mainWindow);
     // 监听渲染进程事件
-    // handleEvent(mainWindow, winTray);
+    handleEvent(mainWindow, winTray);
 })
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();

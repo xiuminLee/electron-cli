@@ -25,7 +25,7 @@ module.exports = override(
         rule.use.push({
             loader: require.resolve("sass-resources-loader"),
             options: {
-                resources: "./src/common.module.scss" //这里是你自己放公共scss变量的路径
+                resources: "./src/config/global-variable.scss" //这里是你自己放公共scss变量的路径
             }
         });
     }
